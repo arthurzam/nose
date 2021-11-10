@@ -101,11 +101,11 @@ and the third is unmarked. They all define the same fixtures:
     called = []
 
     def setup():
-        print "setup called"
+        print("setup called")
         called.append('setup')
 
     def teardown():
-        print "teardown called"
+        print("teardown called")
         called.append('teardown')
 
 And each has two tests that just test that ``setup()`` has been called

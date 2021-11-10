@@ -106,7 +106,7 @@ setup(
     license = 'GNU LGPL',
     keywords = 'test unittest doctest automatic discovery',
     url = 'http://readthedocs.org/docs/nose/',
-    data_files = [('man/man1', ['nosetests.1'])],
+    data_files = [('share/man/man1', ['nosetests.1'])],
     package_data = {'': ['*.txt',
                          'examples/*.py',
                          'examples/*/*.py']},

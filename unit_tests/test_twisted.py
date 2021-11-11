@@ -1,6 +1,7 @@
 from nose.exc import SkipTest
 from nose.tools import *
 from nose.twistedtools import *
+from nose.plugins.attrib import attr
 try:    
     from twisted.internet.defer import Deferred
     from twisted.internet.error import DNSLookupError
@@ -21,6 +22,7 @@ class CustomError(Exception):
 
 # Should succeed unless google is down
 #@deferred
+@attr('network')
 def test_resolve():
     return reactor.resolve("www.google.com")
 test_resolve = deferred()(test_resolve)
@@ -28,6 +30,7 @@ test_resolve = deferred()(test_resolve)
 # Raises TypeError because the function does not return a Deferred
 #@raises(TypeError)
 #@deferred()
+@attr('network')
 def test_raises_bad_return():
     print(reactor)
     reactor.resolve("www.python.org")
@@ -37,6 +40,7 @@ test_raises_bad_return = raises(TypeError)(deferred()(test_raises_bad_return))
 # (XXX this test might take some time: find something better?)
 #@raises(DNSLookupError)
 #@deferred()
+@attr('network')
 def test_raises_twisted_error():
     return reactor.resolve("x.y.invalid")
 test_raises_twisted_error = raises(DNSLookupError)(

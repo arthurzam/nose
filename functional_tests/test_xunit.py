@@ -36,12 +36,7 @@ class TestXUnitPlugin(PluginTester, unittest.TestCase):
         assert '<?xml version="1.0" encoding="UTF-8"?>' in result
         assert '<testsuite name="nosetests" tests="6" errors="2" failures="1" skip="1">' in result
         assert '<testcase classname="test_xunit_as_suite.TestForXunit" name="test_error" time="' in result
-        # TODO(Kumar) think of better x-platform code here that
-        # does not confuse 2to3
-        if sys.version_info[0:2] >= (3,0):
-            assert ('<error type="%s.Exception" message="日本">' % (Exception.__module__,)) in result
-        else:
-            assert ('<error type="%s.Exception" message="日本">' % (Exception.__module__,)).decode('utf8') in result
+        assert ('<error type="%s.Exception" message="日本">' % (Exception.__module__,)) in result
         assert '</testcase>' in result
         assert '</testsuite>' in result
 

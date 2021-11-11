@@ -6,7 +6,6 @@ import re
 import logging
 from setuptools import Distribution as _Distribution
 from distutils.core import Command
-from setuptools.command.build_py import Mixin2to3
 from distutils import dir_util, file_util, log
 import setuptools.command.test
 from pkg_resources import normalize_path
@@ -56,7 +55,7 @@ class Distribution (_Distribution):
         self.pyversion_patching = False
         _Distribution.__init__(self, attrs)
 
-class BuildTestsCommand (Command, Mixin2to3):
+class BuildTestsCommand (Command):
     # Create mirror copy of tests, convert all .py files using 2to3
     user_options = []
 

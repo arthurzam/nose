@@ -52,17 +52,13 @@ class TestCoveragePlugin(object):
 
             cov_info = get_sys_info(c1.coverInstance)
             config_files = get_config_files(cov_info)
-            if config_files is not None:
-                assert '.coveragerc' in config_files
-            else:
-                assert False, "coverage did not load default config file"
+            assert config_files, "coverage did not load default config file"
+            assert '.coveragerc' in config_files
 
             cov_info = get_sys_info(c2.coverInstance)
             config_files = get_config_files(cov_info)
-            if config_files is not None:
-                assert 'not_default_config_file' in config_files
-            else:
-                assert False, "coverage did not load expected config file"
+            assert config_files, "coverage did not load expected config file"
+            assert 'not_default_config_file' in config_files
         finally:
             os.unlink('not_default_config_file')
 

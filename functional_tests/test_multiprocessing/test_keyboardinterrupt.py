@@ -83,6 +83,10 @@ def test_keyboardinterrupt():
 
 
 def test_keyboardinterrupt_twice():
+    import platform
+    if platform.python_implementation() == 'PyPy':
+        from unittest import SkipTest
+        raise SkipTest('Test hangs on PyPy')
     process, logfile, killfile = keyboardinterrupt('keyboardinterrupt_twice.py')
     waitForKillFile(killfile)
     os.killpg(process.pid, signal.SIGINT)

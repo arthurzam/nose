@@ -451,14 +451,13 @@ def try_run(obj, names):
                 if isinstance(func, types.FunctionType):
                     try:
                         sig = inspect.signature(func)
-                        bl = set([inspect.Parameter.VAR_KEYWORD,
-                                  inspect.Parameter.VAR_POSITIONAL,
-                                  inspect.Parameter.KEYWORD_ONLY])
+                        bl = {inspect.Parameter.VAR_KEYWORD,
+                              inspect.Parameter.VAR_POSITIONAL,
+                              inspect.Parameter.KEYWORD_ONLY}
                         args = [k for k, v in sig.parameters.items()
                                 if v.kind not in bl]
                     except AttributeError:
-                        args, varargs, varkw, defaults = \
-                          inspect.getargspec(func)
+                        args, _, _, _ = inspect.getargspec(func)
 
                 else:
                     # Not a function. If it's callable, call it anyway
@@ -467,15 +466,14 @@ def try_run(obj, names):
                     try:
                         try:
                             sig = inspect.signature(func)
-                            bl = set([inspect.Parameter.VAR_KEYWORD,
-                                      inspect.Parameter.VAR_POSITIONAL,
-                                      inspect.Parameter.KEYWORD_ONLY])
+                            bl = {inspect.Parameter.VAR_KEYWORD,
+                                  inspect.Parameter.VAR_POSITIONAL,
+                                  inspect.Parameter.KEYWORD_ONLY}
                             args = [k for k, v in sig.parameters.items()
                                     if v.kind not in bl]
 
                         except AttributeError:
-                            args, varargs, varkw, defaults = \
-                                inspect.getargspec(func)
+                            args, _, _, _ = inspect.getargspec(func)
                             # signature never returns it
                             args.pop(0)  # pop the self off
                     except TypeError:

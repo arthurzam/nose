@@ -106,9 +106,9 @@ class PluginProxy(object):
         if meth is not None:
             try:
                 sig = inspect.signature(meth)
-                bl = set([inspect.Parameter.VAR_KEYWORD,
-                          inspect.Parameter.VAR_POSITIONAL,
-                          inspect.Parameter.KEYWORD_ONLY])
+                bl = {inspect.Parameter.VAR_KEYWORD,
+                      inspect.Parameter.VAR_POSITIONAL,
+                      inspect.Parameter.KEYWORD_ONLY}
                 args = [k for k, v in sig.parameters.items()
                         if v.kind not in bl]
                 arg_len = len(args)

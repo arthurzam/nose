@@ -473,7 +473,7 @@ def try_run(obj, names):
                                     if v.kind not in bl]
 
                         except AttributeError:
-                            args, _, _, _ = inspect.getargspec(func)
+                            args, *_ = inspect.getargspec(func)
                             # signature never returns it
                             args.pop(0)  # pop the self off
                     except TypeError:

@@ -13,26 +13,29 @@ xml_results_filename = os.path.join(support, "xunit.xml")
 
 # the plugin is tested better in unit tests.
 # this is just here for a sanity check
-    
+
 class TestXUnitPlugin(PluginTester, unittest.TestCase):
     activate = '--with-xunit'
     args = ['-v','--xunit-file=%s' % xml_results_filename]
     plugins = [Xunit(), Skip()]
     suitepath = os.path.join(support, 'xunit')
-    
+
     def runTest(self):
         print(str(self.output))
-        
+
         assert "ERROR: test_error" in self.output
         assert "FAIL: test_fail" in self.output
-        assert "test_skip (test_xunit_as_suite.TestForXunit) ... SKIP: skipit" in self.output
+        if sys.version_info >= (3, 11):
+            assert "test_skip (test_xunit_as_suite.TestForXunit.test_skip) ... SKIP: skipit" in self.output
+        else:
+            assert "test_skip (test_xunit_as_suite.TestForXunit) ... SKIP: skipit" in self.output
         assert f"XML: {xml_results_filename}" in self.output
-        
+
         f = codecs.open(xml_results_filename,'r', encoding='utf8')
         result = f.read()
         f.close()
         print(result.encode('utf8', 'replace'))
-        
+
         assert '<?xml version="1.0" encoding="UTF-8"?>' in result
         assert '<testsuite name="nosetests" tests="6" errors="2" failures="1" skip="1">' in result
         assert '<testcase classname="test_xunit_as_suite.TestForXunit" name="test_error" time="' in result

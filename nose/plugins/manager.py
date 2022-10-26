@@ -115,7 +115,7 @@ class PluginProxy(object):
                 if hasattr(meth, '__self__'):
                     arg_len += 1
             except AttributeError:
-                arg_len = len(inspect.getargspec(meth)[0])
+                arg_len = len(inspect.getfullargspec(meth)[0])
             if call == 'loadTestsFromModule' and arg_len == 2:
                 orig_meth = meth
                 meth = lambda module, path, **kwargs: orig_meth(module)

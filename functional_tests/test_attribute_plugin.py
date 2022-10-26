@@ -117,7 +117,7 @@ class TestAttributeArrayOr(AttributePluginTester):
         assert 'test_case_two' not in self.output
         assert 'test_case_one' not in self.output
         assert 'test_case_three' not in self.output
-        
+
 
 class TestInheritance(AttributePluginTester):
     # Issue #412
@@ -150,7 +150,10 @@ class TestClassAndMethodAttrs(AttributePluginTester):
     args = ["-a", "meth_attr=method,cls_attr=class"]
 
     def verify(self):
-        assert '(test_attr.TestClassAndMethodAttrs) ... ok' in self.output
+        if sys.version_info >= (3, 11):
+            assert '(test_attr.TestClassAndMethodAttrs.test_method) ... ok' in self.output
+        else:
+            assert '(test_attr.TestClassAndMethodAttrs) ... ok' in self.output
         assert 'test_case_two' not in self.output
         assert 'test_case_one' not in self.output
         assert 'test_case_three' not in self.output
@@ -166,7 +169,10 @@ class TestTopLevelNotSelected(AttributePluginTester):
         # rather than the attribute plugin, but the issue more easily manifests
         # itself when using attributes.
         assert 'test.test_b ... ok' in self.output
-        assert 'test_a (test.TestBase) ... ok' in self.output
+        if sys.version_info >= (3, 11):
+            assert 'test_a (test.TestBase.test_a) ... ok' in self.output
+        else:
+            assert 'test_a (test.TestBase) ... ok' in self.output
         assert 'TestDerived' not in self.output
 
 

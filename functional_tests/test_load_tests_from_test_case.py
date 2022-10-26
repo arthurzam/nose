@@ -2,6 +2,7 @@
 Tests that plugins can override loadTestsFromTestCase
 """
 import os
+import sys
 import unittest
 from nose import loader
 from nose.plugins import PluginTester
@@ -15,9 +16,9 @@ class NoFixturePlug(Plugin):
     enabled = True
 
     def options(self, parser, env):
-        print("options")        
+        print("options")
         pass
-    
+
     def configure(self, options, conf):
         print("configure")
         pass
@@ -44,14 +45,19 @@ class TestLoadTestsFromTestCaseHook(PluginTester, unittest.TestCase):
     suitepath = os.path.join(support, 'ltftc')
 
     def runTest(self):
-        expect = [
-            'test_value (%s.Derived) ... ERROR' % __name__,
-            'test_value (tests.Tests) ... ok']
+        if sys.version_info >= (3, 11):
+            expect = [
+                'test_value (%s.Derived.test_value) ... ERROR' % __name__,
+                'test_value (tests.Tests.test_value) ... ok']
+        else:
+            expect = [
+                'test_value (%s.Derived) ... ERROR' % __name__,
+                'test_value (tests.Tests) ... ok']
         print((str(self.output)))
         for line in self.output:
             if expect:
                 self.assertEqual(line.strip(), expect.pop(0))
-                
+
 
 if __name__ == '__main__':
     unittest.main()

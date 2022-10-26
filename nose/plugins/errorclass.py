@@ -1,4 +1,15 @@
+import sys
+
+if sys.version_info >= (3, 11):
+    method = "TestTodo.runTest"
+    traceback = """
+...Todo("I need to test something")
+...
 """
+else:
+    method = "TestTodo"
+    traceback = ""
+f"""
 ErrorClass Plugins
 ------------------
 
@@ -66,7 +77,7 @@ each step.
 Now run the test. TODO is printed.
 
     >>> _ = case(result) # doctest: +ELLIPSIS
-    runTest (....TestTodo) ... TODO: I need to test something
+    runTest (....{method}) ... TODO: I need to test something
 
 Errors and failures are empty, but todo has our test:
 
@@ -79,10 +90,10 @@ Errors and failures are empty, but todo has our test:
     >>> result.printErrors() # doctest: +ELLIPSIS
     <BLANKLINE>
     ======================================================================
-    TODO: runTest (....TestTodo)
+    TODO: runTest (....{method})
     ----------------------------------------------------------------------
     Traceback (most recent call last):
-    ...
+    ...{traceback}
     ...Todo: I need to test something
     <BLANKLINE>
 

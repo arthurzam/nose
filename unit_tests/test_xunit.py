@@ -224,7 +224,8 @@ class TestXMLOutputWithXML(BaseTestXMLOutputWithXML):
             err_lines = err.text.strip().split("\n")
             eq_(err_lines[0], 'Traceback (most recent call last):')
             eq_(err_lines[-1], 'AssertionError: one is not \'equal\' to two')
-            eq_(err_lines[-2], '    raise AssertionError("one is not \'equal\' to two")')
+            r_line = -3 if '^' * 10 in err_lines[-2] else -2
+            eq_(err_lines[r_line], '    raise AssertionError("one is not \'equal\' to two")')
         else:
             # this is a dumb test for 2.4-
             assert '<?xml version="1.0" encoding="UTF-8"?>' in result
@@ -291,7 +292,8 @@ class TestXMLOutputWithXML(BaseTestXMLOutputWithXML):
             err_lines = err.text.strip().split("\n")
             eq_(err_lines[0], 'Traceback (most recent call last):')
             eq_(err_lines[-1], 'RuntimeError: some error happened')
-            eq_(err_lines[-2], '    raise RuntimeError("some error happened")')
+            r_line = -3 if '^' * 10 in err_lines[-2] else -2
+            eq_(err_lines[r_line], '    raise RuntimeError("some error happened")')
         else:
             # this is a dumb test for 2.4-
             assert '<?xml version="1.0" encoding="UTF-8"?>' in result
